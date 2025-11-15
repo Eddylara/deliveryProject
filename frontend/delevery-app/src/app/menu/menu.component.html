@@ -1,0 +1,40 @@
+<section class="menu-root">
+  <header class="menu-header">
+    <h1>{{ restaurantName }}</h1>
+    <p class="lead">Sabores del Caribe y lo mejor del sushi: "El sushi también se come en la costa"</p>
+    <p class="sublead">Encuentra nuestras especialidades y deja espacio para tus imágenes. No existe un formulario para subir imágenes desde la app: coloca los archivos de imagen en <code>src/assets/menu/</code> y asigna la ruta al campo <code>imageUrl</code> de cada plato en <code>menu.component.ts</code> (ej.: <code>assets/menu/california-roll.jpg</code>).</p>
+  </header>
+
+  <main class="menu-sections">
+    <ng-container *ngFor="let section of sections">
+      <section class="menu-section">
+        <h2>{{ section.title }}</h2>
+        <div class="items">
+          <article class="item" *ngFor="let it of section.items; let i = index; let si = index">
+            <div class="thumb">
+              <ng-container *ngIf="it.imageUrl && it.imageUrl.length; else placeholder">
+                <img [src]="it.imageUrl" [alt]="it.name" />
+              </ng-container>
+              <ng-template #placeholder>
+                <div class="placeholder">
+                  <div>Sin imagen</div>
+                  <small>Sugerencia de ruta: <code>{{ getSuggestedFilename(section.title, i) }}</code></small>
+                  <div class="hint">Copia este snippet y reemplaza la ruta por tu archivo:</div>
+                  <pre class="snippet">&lt;img src="{{ getSuggestedFilename(section.title, i) }}" alt="{{ it.name }}" /&gt;</pre>
+                </div>
+              </ng-template>
+            </div>
+            <div class="info">
+              <h3>{{ it.name }}</h3>
+              <p *ngIf="it.description">{{ it.description }}</p>
+            </div>
+          </article>
+        </div>
+      </section>
+    </ng-container>
+  </main>
+
+  <footer class="menu-footer">
+    <p>&copy; {{ restaurantName }}</p>
+  </footer>
+</section>

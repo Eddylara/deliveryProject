@@ -1,0 +1,23 @@
+<header class="app-header">
+  <nav class="global-nav">
+    <div class="brand"><a routerLink="/">Sabor y Mar Cartagena</a></div>
+    <div class="nav-links">
+      <a routerLink="/">Inicio</a>
+      <a routerLink="/menu">Menú</a>
+      <a routerLink="/about">Quiénes somos</a>
+      <a routerLink="/contact">Contacto</a>
+    </div>
+  </nav>
+</header>
+
+<main class="app-root">
+  <router-outlet></router-outlet>
+</main>
+
+<style>
+  .app-header { position:sticky; top:0; background: #fff; z-index:50; box-shadow:0 2px 8px rgba(0,0,0,0.06); }
+  .global-nav { display:flex; align-items:center; justify-content:space-between; padding:0.6rem 1rem; max-width:1200px; margin:0 auto; }
+  .global-nav .brand a { text-decoration:none; font-weight:700; color:#e63b2e; }
+  .global-nav .nav-links a { margin-left:1rem; text-decoration:none; color:#333; }
+  @media (max-width:700px){ .global-nav .nav-links a{ display:inline-block; margin-left:0.6rem; font-size:0.95rem } }
+</style>

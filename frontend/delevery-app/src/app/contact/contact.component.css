@@ -1,0 +1,3 @@
+.contact-root { padding:1.25rem; max-width:900px; margin:0 auto }
+.contact-root h1 { color: #e63b2e }
+.contact-root p, .contact-root li { color:#333; line-height:1.6 }

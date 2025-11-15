@@ -1,0 +1,52 @@
+<section class="hero">
+  <!-- Navbar global en app.shell.html maneja la navegación; navbar local eliminada para evitar duplicados -->
+
+  <div class="banner">
+    <button class="carousel-btn prev" (click)="prev()">‹</button>
+    <div class="slides">
+      <img [src]="carouselImages[active]" alt="Imagen destacada" />
+      <div class="banner-overlay">
+        <h1>Comida rápida, caliente y deliciosa</h1>
+        <p>Desde el corazón de <strong>Cartagena de Indias</strong> servimos tus favoritos: hamburguesas, papas, y también sushi preparado al instante para llevar. Disfruta sabores locales y frescura marina en cada bocado.</p>
+        <p class="tagline">"El sushi también se come en la costa"</p>
+        <div class="banner-cta">
+          <a class="order-btn large" routerLink="/menu">Ver Menú</a>
+          <a class="menu-link" routerLink="/about" style="margin-left:12px">Conócenos</a>
+        </div>
+      </div>
+    </div>
+    <button class="carousel-btn next" (click)="next()">›</button>
+  </div>
+</section>
+
+<section class="features">
+  <div class="feature-card">
+    <div class="feature-icon">🚀</div>
+    <div class="feature-body">
+      <h3>Rápido</h3>
+      <p>Pedidos listos en menos de 30 minutos.</p>
+    </div>
+  </div>
+
+  <div class="feature-card">
+    <div class="feature-icon">🥗</div>
+    <div class="feature-body">
+      <h3>Calidad</h3>
+      <p>Ingredientes frescos y recetas probadas.</p>
+    </div>
+  </div>
+
+  <div class="feature-card">
+    <div class="feature-icon">🎉</div>
+    <div class="feature-body">
+      <h3>Ofertas</h3>
+      <p>Promociones diarias y descuentos para la app.</p>
+    </div>
+  </div>
+</section>
+
+<section class="quick-links" style="text-align:center;padding:1rem">
+  <a routerLink="/about">Quiénes somos</a> |
+  <a routerLink="/menu">Menú</a> |
+  <a routerLink="/contact">Contacto</a>
+</section>
