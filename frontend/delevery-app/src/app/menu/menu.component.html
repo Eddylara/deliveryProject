@@ -2,7 +2,7 @@
   <header class="menu-header">
     <h1>{{ restaurantName }}</h1>
     <p class="lead">Sabores del Caribe y lo mejor del sushi: "El sushi también se come en la costa"</p>
-    <p class="sublead">Encuentra nuestras especialidades y deja espacio para tus imágenes. No existe un formulario para subir imágenes desde la app: coloca los archivos de imagen en <code>src/assets/menu/</code> y asigna la ruta al campo <code>imageUrl</code> de cada plato en <code>menu.component.ts</code> (ej.: <code>assets/menu/california-roll.jpg</code>).</p>
+    <p class="sublead">Las imágenes se sirven desde el backend. Si tu backend está en <code>http://127.0.0.1:8000</code> la ruta de una imagen será, por ejemplo, <code>http://127.0.0.1:8000/imagen-sushi-1.jpg</code>.</p>
   </header>
 
   <main class="menu-sections">
@@ -18,14 +18,15 @@
               <ng-template #placeholder>
                 <div class="placeholder">
                   <div>Sin imagen</div>
-                  <small>Sugerencia de ruta: <code>{{ getSuggestedFilename(section.title, i) }}</code></small>
-                  <div class="hint">Copia este snippet y reemplaza la ruta por tu archivo:</div>
-                  <pre class="snippet">&lt;img src="{{ getSuggestedFilename(section.title, i) }}" alt="{{ it.name }}" /&gt;</pre>
+                  <small>Si la imagen está en el backend, la URL sería: <code>http://127.0.0.1:8000/imagen-<i>tu-nombre</i>.jpg</code></small>
+                  <div class="hint">Ejemplo de snippet:</div>
+                  <pre class="snippet">&lt;img src="http://127.0.0.1:8000/imagen-sushi-1.jpg" alt="{{ it.name }}" /&gt;</pre>
                 </div>
               </ng-template>
             </div>
             <div class="info">
               <h3>{{ it.name }}</h3>
+              <p class="price" *ngIf="it.price">{{ it.price | number:'1.0-0' }} COP</p>
               <p *ngIf="it.description">{{ it.description }}</p>
             </div>
           </article>

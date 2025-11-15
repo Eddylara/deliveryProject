@@ -1,6 +1,10 @@
 from fastapi import FastAPI, HTTPException
 from fastapi.middleware.cors import CORSMiddleware
+from fastapi.responses import FileResponse
 from app import db
+import os
+import mimetypes
+import re
 
 app = FastAPI(
     title="Sabor y Mar Cartagena API",
@@ -86,3 +90,37 @@ async def get_menu_section(section: str):
     } for r in rows]
 
     return {categoria: items}
+
+
+# Directorio donde el backend buscará las imágenes
+IMAGES_DIR = os.path.join(os.path.dirname(__file__), "images")
+
+
+def _safe_image_path(name: str) -> str:
+    # Permitir sólo nombres simples (evitar traversal)
+    if not re.match(r'^[A-Za-z0-9_.-]+$', name):
+        return ""
+    return os.path.join(IMAGES_DIR, name)
+
+
+@app.get("/assets/menu/{image_name}")
+async def serve_menu_asset(image_name: str):
+    """Sirve imágenes desde /assets/menu/{image_name} (compatibilidad con frontend)."""
+    path = _safe_image_path(image_name)
+    if not path or not os.path.isfile(path):
+        raise HTTPException(404, "Imagen no encontrada")
+    mime, _ = mimetypes.guess_type(path)
+    return FileResponse(path, media_type=mime or "application/octet-stream")
+
+
+@app.get("/{image_name}")
+async def serve_root_image(image_name: str):
+    """Sirve imágenes directamente en /{image_name} tal como solicitaste.
+
+    Nota: esta ruta está definida al final para no chocar con las rutas '/menu' y '/menu/{section}'.
+    """
+    path = _safe_image_path(image_name)
+    if not path or not os.path.isfile(path):
+        raise HTTPException(404, "Imagen no encontrada")
+    mime, _ = mimetypes.guess_type(path)
+    return FileResponse(path, media_type=mime or "application/octet-stream")
