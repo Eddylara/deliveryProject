@@ -1,6 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { HttpClient, HttpClientModule } from '@angular/common/http';
+import { RouterModule } from '@angular/router';
+import { CartService } from '../cart.service';
 
 interface MenuItem {
   id?: number;
@@ -18,7 +20,7 @@ interface MenuSection {
 @Component({
   selector: 'app-menu',
   standalone: true,
-  imports: [CommonModule, HttpClientModule],
+  imports: [CommonModule, HttpClientModule, RouterModule],
   templateUrl: './menu.component.html',
   styleUrls: ['./menu.component.css']
 })
@@ -30,7 +32,7 @@ export class MenuComponent implements OnInit {
   // Cambia si tu backend corre en otra dirección
   backendBase = 'http://127.0.0.1:8000';
 
-  constructor(private http: HttpClient) {}
+  constructor(private http: HttpClient, private cart: CartService) {}
 
   ngOnInit(): void {
     this.loadMenuFromBackend();
@@ -75,5 +77,15 @@ export class MenuComponent implements OnInit {
     // Reemplazar guiones/underscores por espacios y capitalizar
     const s = cat.replace(/[-_]+/g, ' ');
     return s.charAt(0).toUpperCase() + s.slice(1);
+  }
+
+  addToCart(it: any) {
+    if (!it) return;
+    this.cart.add({
+      comida_id: it.id,
+      nombre: it.name ?? it.nombre,
+      precio: Number(it.price ?? it.precio ?? 0),
+      foto: it.imageUrl ?? it.foto
+    }, 1);
   }
 }

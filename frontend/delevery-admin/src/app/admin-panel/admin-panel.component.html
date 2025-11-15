@@ -1,0 +1,105 @@
+<section class="panel-root">
+  <h1>Panel administrador</h1>
+  <p>Bienvenido al panel de administración. Aquí puedes ver y agregar comidas.</p>
+
+  <div class="actions">
+    <button class="btn" (click)="openAddModal()">Añadir comida</button>
+    <a class="btn btn-secondary" routerLink="/pedidos">Ver pedidos</a>
+    <span class="spacer"></span>
+    <button class="btn btn-secondary" (click)="logout()">Cerrar sesión</button>
+  </div>
+
+  <!-- Modal añadir -->
+  <div class="modal-backdrop" *ngIf="showAddModal" (click)="closeAddModal()"></div>
+  <div class="modal" *ngIf="showAddModal" role="dialog" aria-modal="true">
+    <div class="modal-card" (click)="$event.stopPropagation()">
+      <header class="modal-header">
+        <h3>Nueva comida</h3>
+        <button class="icon" (click)="closeAddModal()" aria-label="Cerrar">✕</button>
+      </header>
+      <form class="modal-body" (ngSubmit)="addItem()">
+        <label>
+          <span>Nombre</span>
+          <input type="text" [(ngModel)]="newNombre" name="nombre" required />
+        </label>
+        <label>
+          <span>Precio</span>
+          <input type="number" [(ngModel)]="newPrecio" name="precio" min="0" required />
+        </label>
+        <label>
+          <span>Categoría</span>
+          <select [(ngModel)]="newCategoriaId" name="categoria_id" required>
+            <option [ngValue]="null" disabled>Selecciona categoría…</option>
+            <option *ngFor="let c of categories" [ngValue]="c.id">{{c.nombre}} ({{c.id}})</option>
+          </select>
+        </label>
+        <label class="file">
+          <span>Foto</span>
+          <input id="file-input-add" type="file" (change)="onFileChange($event)" accept="image/*" />
+        </label>
+        <footer class="modal-actions">
+          <button type="button" class="btn btn-secondary" (click)="closeAddModal()">Cancelar</button>
+          <button type="submit" class="btn">Guardar</button>
+        </footer>
+      </form>
+    </div>
+  </div>
+
+  <!-- Modal editar -->
+  <div class="modal-backdrop" *ngIf="showEditModal" (click)="closeEditModal()"></div>
+  <div class="modal" *ngIf="showEditModal" role="dialog" aria-modal="true">
+    <div class="modal-card" (click)="$event.stopPropagation()">
+      <header class="modal-header">
+        <h3>Editar comida</h3>
+        <button class="icon" (click)="closeEditModal()" aria-label="Cerrar">✕</button>
+      </header>
+      <form class="modal-body" (ngSubmit)="updateItem()">
+        <label>
+          <span>Nombre</span>
+          <input type="text" [(ngModel)]="editNombre" name="edit_nombre" required />
+        </label>
+        <label>
+          <span>Precio</span>
+          <input type="number" [(ngModel)]="editPrecio" name="edit_precio" min="0" required />
+        </label>
+        <label>
+          <span>Categoría</span>
+          <select [(ngModel)]="editCategoriaId" name="edit_categoria_id">
+            <option [ngValue]="null">(Sin cambio)</option>
+            <option *ngFor="let c of categories" [ngValue]="c.id">{{c.nombre}} ({{c.id}})</option>
+          </select>
+        </label>
+        <label class="file">
+          <span>Foto (opcional)</span>
+          <input id="file-input-edit" type="file" (change)="onEditFileChange($event)" accept="image/*" />
+        </label>
+        <footer class="modal-actions">
+          <button type="button" class="btn btn-secondary" (click)="closeEditModal()">Cancelar</button>
+          <button type="submit" class="btn">Actualizar</button>
+        </footer>
+      </form>
+    </div>
+  </div>
+
+  <section class="menu-list">
+    <h2>Menú actual</h2>
+    <div *ngIf="menu && (menu | keyvalue).length === 0">No hay elementos</div>
+    <div *ngFor="let cat of (menu | keyvalue)">
+      <h3>{{cat.key}}</h3>
+      <div class="items">
+        <div class="item" *ngFor="let it of cat.value">
+          <img [src]="imageSrcFor(it)" alt="{{it.nombre}}" />
+          <div class="meta">
+            <div class="name">{{it.nombre}}</div>
+            <div class="price">{{it.precio | number}} COP</div>
+            <div class="id">ID: {{it.id}}</div>
+            <div class="row-actions">
+              <button class="btn btn-small" (click)="editItem(it)">Editar</button>
+              <button class="btn btn-small btn-danger" (click)="deleteItem(it)">Eliminar</button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+</section>

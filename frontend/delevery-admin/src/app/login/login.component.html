@@ -1,0 +1,21 @@
+<section class="login-root">
+  <h1>Ingreso administrador</h1>
+  <form (ngSubmit)="login()">
+    <label>
+      Usuario
+      <input name="username" [(ngModel)]="username" required />
+    </label>
+
+    <label>
+      Contraseña
+      <input name="password" type="password" [(ngModel)]="password" required />
+    </label>
+
+    <div class="actions">
+      <button type="submit">Entrar</button>
+    </div>
+
+    <div class="error" *ngIf="error">{{ error }}</div>
+  </form>
+
+</section>

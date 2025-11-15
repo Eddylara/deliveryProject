@@ -1,0 +1,107 @@
+<section class="checkout-root">
+  <h1>Tu carrito</h1>
+
+  <div class="cart" *ngIf="cart.items().length; else empty">
+    <div class="row head">
+      <div>Producto</div>
+      <div>Cantidad</div>
+      <div>Precio</div>
+      <div>Subtotal</div>
+      <div></div>
+    </div>
+    <div class="row" *ngFor="let it of cart.items()">
+      <div class="prod">
+        <img *ngIf="it.foto" [src]="it.foto" [alt]="it.nombre" class="thumb" />
+        <div class="info">
+          <div class="title">{{ it.nombre }}</div>
+          <div class="muted">ID: {{ it.comida_id }}</div>
+        </div>
+      </div>
+      <div>
+        <div class="qty-control">
+          <button type="button" class="btn-qty" (click)="decQty(it.comida_id, it.cantidad)">−</button>
+          <span class="qty" aria-live="polite">{{ it.cantidad }}</span>
+          <button type="button" class="btn-qty" (click)="incQty(it.comida_id, it.cantidad)">+</button>
+        </div>
+      </div>
+      <div>{{ it.precio | number:'1.0-0' }} COP</div>
+      <div>{{ (it.precio * it.cantidad) | number:'1.0-0' }} COP</div>
+      <div><button class="btn btn-danger btn-small" (click)="remove(it.comida_id)">Quitar</button></div>
+    </div>
+
+    <div class="summary">
+      <div>Subtotal: <strong>{{ subtotal() | number:'1.0-0' }} COP</strong></div>
+      <div>Envío: <strong>{{ envio() | number:'1.0-0' }} COP</strong></div>
+      <div class="total">Total: <strong>{{ totalFinal() | number:'1.0-0' }} COP</strong></div>
+    </div>
+  </div>
+
+  <ng-template #empty>
+    <ng-container *ngIf="!successId">
+      <div class="empty-state" role="status" aria-live="polite">
+        <div class="empty-illustration" aria-hidden="true">🛒</div>
+        <h2 class="empty-title">Tu carrito está vacío</h2>
+        <p class="empty-desc">Explora nuestro menú y agrega tus favoritos.</p>
+        <div class="empty-actions">
+          <a class="btn" routerLink="/menu">Ver menú</a>
+          <a class="btn btn-secondary" routerLink="/">Volver al inicio</a>
+        </div>
+      </div>
+    </ng-container>
+  </ng-template>
+
+  <form class="form" (ngSubmit)="submit()" *ngIf="cart.items().length && !successId">
+    <h2>Datos para el pedido</h2>
+    <div class="grid">
+      <label>
+        <span>Nombre</span>
+        <input [(ngModel)]="nombre" name="nombre" required />
+      </label>
+      <label>
+        <span>Apellido</span>
+        <input [(ngModel)]="apellido" name="apellido" required />
+      </label>
+      <label>
+        <span>Documento</span>
+        <input [(ngModel)]="documento" name="documento" required />
+      </label>
+      <label>
+        <span>Teléfono</span>
+        <input [(ngModel)]="telefono" name="telefono" required />
+      </label>
+      <label class="span2">
+        <span>Dirección</span>
+        <input [(ngModel)]="direccion" name="direccion" required />
+      </label>
+      <label>
+        <span>Apartamento (opcional)</span>
+        <input [(ngModel)]="apto" name="apto" />
+      </label>
+      <label class="span2">
+        <span>Notas</span>
+        <textarea [(ngModel)]="notas" name="notas" rows="3"></textarea>
+      </label>
+    </div>
+    <div class="actions">
+      <button type="submit" class="btn" [disabled]="sending">{{ sending ? 'Enviando…' : 'Confirmar pedido' }}</button>
+      <div class="error" *ngIf="error">{{ error }}</div>
+    </div>
+  </form>
+
+  <div class="success" *ngIf="successId">
+    <div class="success-head">
+      <div class="icon">✓</div>
+      <div class="titles">
+        <h2>¡Pedido creado con éxito!</h2>
+        <p class="subtitle">Gracias por tu compra, estamos preparando tu pedido.</p>
+      </div>
+    </div>
+    <div class="order-id">
+      Número de pedido: <span>#{{ successId }}</span>
+    </div>
+    <div class="success-actions">
+      <a class="btn" routerLink="/">Volver al inicio</a>
+      <a class="btn btn-secondary" routerLink="/menu">Ver más del menú</a>
+    </div>
+  </div>
+</section>

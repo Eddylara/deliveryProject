@@ -1,0 +1,58 @@
+<section class="orders-root">
+  <h1>Pedidos</h1>
+
+  <div class="toolbar">
+    <label class="filter">
+      <span>Filtrar por estado</span>
+      <select [(ngModel)]="filtroEstado" (change)="load()">
+        <option value="">(Todos)</option>
+        <option *ngFor="let e of estados" [value]="e">{{ e }}</option>
+      </select>
+    </label>
+    <div class="grow"></div>
+    <div class="count" *ngIf="!loading">{{ pedidos.length }} pedido{{ pedidos.length === 1 ? '' : 's' }}</div>
+    <button class="btn" routerLink="/panel">Volver al panel</button>
+  </div>
+
+  <div *ngIf="loading">Cargando…</div>
+  <div class="error" *ngIf="error">{{ error }}</div>
+
+  <div class="table-wrap" *ngIf="!loading && pedidos.length">
+  <table class="table">
+    <thead>
+      <tr>
+        <th>#</th>
+        <th>Fecha</th>
+        <th>Cliente</th>
+        <th>Contacto</th>
+        <th>Dirección</th>
+        <th>Ítems</th>
+        <th>Total</th>
+        <th>Estado</th>
+        <th></th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let p of pedidos">
+        <td>{{ p.id }}</td>
+        <td>{{ p.fecha | date:'short' }}</td>
+        <td>{{ p.nombre }} {{ p.apellido }}</td>
+        <td>{{ p.telefono }}</td>
+        <td>{{ p.direccion }}<span *ngIf="p.apto">, apto {{ p.apto }}</span></td>
+        <td>{{ p.items_count }}</td>
+        <td>{{ p.total | number:'1.0-0' }} COP</td>
+        <td>
+          <select class="state-select" [ngClass]="'st-' + p.estado" [ngModel]="p.estado" (ngModelChange)="cambiarEstado(p, $event)">
+            <option *ngFor="let e of estados" [ngValue]="e">{{ e }}</option>
+          </select>
+        </td>
+        <td>
+          <button class="btn btn-small btn-ghost" (click)="verDetalle(p)">Ver detalle</button>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+  </div>
+
+  <div *ngIf="!loading && !pedidos.length" class="empty">No hay pedidos</div>
+</section>

@@ -2,7 +2,7 @@
   <header class="menu-header">
     <h1>{{ restaurantName }}</h1>
     <p class="lead">Sabores del Caribe y lo mejor del sushi: "El sushi también se come en la costa"</p>
-    <p class="sublead">Las imágenes se sirven desde el backend. Si tu backend está en <code>http://127.0.0.1:8000</code> la ruta de una imagen será, por ejemplo, <code>http://127.0.0.1:8000/imagen-sushi-1.jpg</code>.</p>
+    <p class="sublead">Las imágenes se sirven desde el backend. Si tu backend está en <code>http://127.0.0.1:8000</code> la ruta de una imagen será, por ejemplo, <code>http://127.0.0.1:8000/imagen-sushi-1</code> o <code>http://127.0.0.1:8000/imagen-sushi-1.png</code> (cualquier extensión común está soportada).</p>
   </header>
 
   <main class="menu-sections">
@@ -18,9 +18,9 @@
               <ng-template #placeholder>
                 <div class="placeholder">
                   <div>Sin imagen</div>
-                  <small>Si la imagen está en el backend, la URL sería: <code>http://127.0.0.1:8000/imagen-<i>tu-nombre</i>.jpg</code></small>
+                  <small>Si la imagen está en el backend, la URL sería: <code>http://127.0.0.1:8000/imagen-<i>tu-nombre</i></code> o con extensión explícita (jpg, png, webp, gif).</small>
                   <div class="hint">Ejemplo de snippet:</div>
-                  <pre class="snippet">&lt;img src="http://127.0.0.1:8000/imagen-sushi-1.jpg" alt="{{ it.name }}" /&gt;</pre>
+                  <pre class="snippet">&lt;img src="http://127.0.0.1:8000/imagen-sushi-1" alt="{{ it.name }}" /&gt;</pre>
                 </div>
               </ng-template>
             </div>
@@ -28,6 +28,9 @@
               <h3>{{ it.name }}</h3>
               <p class="price" *ngIf="it.price">{{ it.price | number:'1.0-0' }} COP</p>
               <p *ngIf="it.description">{{ it.description }}</p>
+              <div class="actions">
+                <button class="btn" (click)="addToCart(it)">Agregar</button>
+              </div>
             </div>
           </article>
         </div>
@@ -36,6 +39,6 @@
   </main>
 
   <footer class="menu-footer">
-    <p>&copy; {{ restaurantName }}</p>
+    <p>&copy; {{ restaurantName }} — <a routerLink="/checkout">Ir al carrito</a></p>
   </footer>
 </section>

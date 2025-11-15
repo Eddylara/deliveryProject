@@ -6,6 +6,10 @@
       <a routerLink="/menu">Menú</a>
       <a routerLink="/about">Quiénes somos</a>
       <a routerLink="/contact">Contacto</a>
+      <a class="cart-pill" routerLink="/checkout" aria-label="Carrito">
+        🛒 <span class="qty" *ngIf="cartCount() > 0">{{ cartCount() }}</span>
+        <span class="subtotal" *ngIf="cartSubtotal() > 0">{{ cartSubtotal() | number:'1.0-0' }} COP</span>
+      </a>
     </div>
   </nav>
 </header>
@@ -18,6 +22,10 @@
   .app-header { position:sticky; top:0; background: #fff; z-index:50; box-shadow:0 2px 8px rgba(0,0,0,0.06); }
   .global-nav { display:flex; align-items:center; justify-content:space-between; padding:0.6rem 1rem; max-width:1200px; margin:0 auto; }
   .global-nav .brand a { text-decoration:none; font-weight:700; color:#e63b2e; }
-  .global-nav .nav-links a { margin-left:1rem; text-decoration:none; color:#333; }
+  .global-nav .nav-links { display:flex; align-items:center; gap:0.8rem; }
+  .global-nav .nav-links a { text-decoration:none; color:#333; }
+  .cart-pill { display:inline-flex; align-items:center; gap:8px; background:#0f172a; color:#fff !important; padding:6px 10px; border-radius:999px; }
+  .cart-pill .qty { background:#ef4444; color:#fff; padding:2px 6px; border-radius:999px; font-size:12px; line-height:1; }
+  .cart-pill .subtotal { font-weight:600; }
   @media (max-width:700px){ .global-nav .nav-links a{ display:inline-block; margin-left:0.6rem; font-size:0.95rem } }
 </style>
